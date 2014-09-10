@@ -7,6 +7,7 @@ var Dayplan = require('./dayPlan.model');
 exports.index = function(req, res) {
   Dayplan.find()
           .sort('dayNum')
+          .populate("hotels restaurants things")
           .exec(function (err, dayPlans){
             if(err) { return handleError(res, err); }
             return res.json(200, dayPlans);
@@ -54,9 +55,24 @@ exports.update = function(req, res) {
   });
 };
 
-exports.addActivity = function(){}
+exports.addActivity = function(req, res){
+  Dayplan.findById(req.params.id, function (err, dayPlan) {
+    if (err) { return handleError(res, err); }
+    if(!dayPlan) { return res.send(404); }
 
-// /days/:dayId/activities
+    dayPlan[req.params.type].push(req.params.activityid)
+
+    console.log("updated dayPlan"+dayPlan);
+
+    dayPlan.save(function (err, product, numberAffected) {
+      if (err) { return handleError(res, err); }
+      console.log("product :"+product);
+      console.log("numberAffected:"+numberAffected);
+      return res.json(200, dayPlan);
+    });
+  });
+};
+
 
 
 // Deletes a dayPlan from the DB.

@@ -35,6 +35,7 @@ angular.module('tpAngularApp')
 
     $scope.selectDay = function(clickedDayNum){
       $scope.curDay = $scope.dayPlans[clickedDayNum-1];
+      //populate itenerary
     }
     //add day
     $scope.addDay = function(){
@@ -50,25 +51,32 @@ angular.module('tpAngularApp')
 
     //dropdowns
     $scope.addtoHotel = function(){
-      $scope.curDay.hotels.push($scope.currHotel._id);
-      $http.put('/api/dayPlans/'+$scope.curDay._id, $scope.curDay)
-        .success(function(data) {
-          $('#hotel_list').append('<p>'+$scope.currHotel.name+'</p>');
-        });
+      $scope.curDay.hotels.push($scope.currHotel);
+      $http.post('/api/dayPlans/'+$scope.curDay._id+"/activity/hotels/"+$scope.currHotel._id)
+        .success(function(data) {});
     }
 
     $scope.addtoRestaurant = function() {
-      $scope.curDay.restaurants.push($scope.currRestaurant._id);
-      $http.put('/api/dayPlans'+$scope.curDay._id, $scope.curDay).success(function() {
-        $('#restaurant_list').append('<p>'+$scope.currRestaurant.name+'</p>');
-      });
+      $scope.curDay.restaurants.push($scope.currRestaurant);
+
+      $http.post('/api/dayPlans/'+$scope.curDay._id+"/activity/restaurants/"+$scope.currRestaurant._id)
+        .success(function(data) {});
     }
 
      $scope.addtoThing = function() {
-      $scope.curDay.things.push($scope.currThing._id);
-      $http.put('/api/dayPlans'+$scope.curDay._id, $scope.curDay).success(function() {
-        $('#thing_list').append('<p>'+$scope.currThing.name+'</p>');
-      });
+      $scope.curDay.things.push($scope.currThing);
+      $http.post('/api/dayPlans/'+$scope.curDay._id+"/activity/things/"+$scope.currThing._id)
+        .success(function(data){});
+    }
+
+    $scope.getByTypeId = function(type, id){
+      var typeArr = $scope[type]
+      for (var i = 0; i<typeArr.length; i++) {
+        if(typeArr[i]._id.toString() == id.toString()){
+          return typeArr[i];
+        }
+      };
+      return undefined;
     }
 
   });

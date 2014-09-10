@@ -23,16 +23,19 @@
             Hotel:
           </Strong>
         </p>
+        <p ng-repeat="hotel in curDay.hotels">{{hotel.name}}</p>
         <p id="restaurant_list">
           <Strong>
           Restaurants:
           </Strong>
         </p>
+        <p ng-repeat="restaurant in curDay.restaurants">{{restaurant.name}}</p>
         <p id="thing_list">
           <Strong>
           Things to Do:
           </Strong>
         </p>
+        <p ng-repeat="thing in curDay.things">{{thing.name}}</p>
       </div>
     </div> <!-- End Itnerary Well -->
 
@@ -47,10 +50,7 @@
       <br>
 
       <div class = "row">
-        <select class="selectpicker" id="restaurant_selector" ng-model="currRestaurant">
-          <option ng-repeat="restaurant in restaurants">
-            {{restaurant.name}}
-          </option>
+        <select class="selectpicker" id="restaurant_selector" ng-model="currRestaurant" ng-options="restaurant.name for restaurant in restaurants">
         </select>
         <button type="button" class="btn btn-default" ng-click="addtoRestaurant()">Add</button>
       </div>
@@ -58,10 +58,7 @@
       <br>
 
       <div class = "row">
-        <select class="selectpicker" id="thing_selector" ng-model="currThing">
-          <option ng-repeat="thingtodo in thingtodos">
-            {{thingtodo.name}}
-          </option>
+        <select class="selectpicker" id="thing_selector" ng-model="currThing" ng-options="thing.name for thing in thingtodos">
         </select>
         <button type="button" class="btn btn-default" ng-click="addtoThing()">Add</button>
       </div>

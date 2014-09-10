@@ -5,9 +5,9 @@ var mongoose = require('mongoose'),
 
 var DayplanSchema = new Schema({
     dayNum: Number,
-    hotels: [{ type: Schema.Types.ObjectId }],
-    restaurants: [{ type: Schema.Types.ObjectId }],
-    things: [{ type: Schema.Types.ObjectId }]
+    hotels: [{type: Schema.Types.ObjectId, ref:'Hotel' }],
+    things: [{type: Schema.Types.ObjectId, ref:'Thingtodo' }],
+    restaurants: [{type: Schema.Types.ObjectId, ref:'Restaurant' }]
 });
 
 module.exports = mongoose.model('Dayplan', DayplanSchema);
