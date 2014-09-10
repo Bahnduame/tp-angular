@@ -5,7 +5,8 @@ angular.module('tpAngularApp')
   .controller('MainCtrl', function ($scope, $http, socket) {
     //variables
     $scope.itenerary_title = "Please Select a Day: ";
-    // $scope.curDay = $scope.dayPlans[0];
+    $scope.curDay = {};
+    $scope.dayPlans = [];
 
 
     //gets
@@ -50,7 +51,6 @@ angular.module('tpAngularApp')
     //dropdowns
     $scope.addtoHotel = function(){
       $scope.curDay.hotels.push($scope.currHotel._id);
-      console.log($scope.curDay);
       $http.put('/api/dayPlans/'+$scope.curDay._id, $scope.curDay)
         .success(function(data) {
           $('#hotel_list').append('<p>'+$scope.currHotel.name+'</p>');
@@ -59,14 +59,14 @@ angular.module('tpAngularApp')
 
     $scope.addtoRestaurant = function() {
       $scope.curDay.restaurants.push($scope.currRestaurant._id);
-      $http.post('/api/dayPlans',$scope.curDay).success(function() {
+      $http.put('/api/dayPlans'+$scope.curDay._id, $scope.curDay).success(function() {
         $('#restaurant_list').append('<p>'+$scope.currRestaurant.name+'</p>');
       });
     }
 
      $scope.addtoThing = function() {
       $scope.curDay.things.push($scope.currThing._id);
-      $http.post('/api/dayPlans',$scope.curDay).success(function() {
+      $http.put('/api/dayPlans'+$scope.curDay._id, $scope.curDay).success(function() {
         $('#thing_list').append('<p>'+$scope.currThing.name+'</p>');
       });
     }

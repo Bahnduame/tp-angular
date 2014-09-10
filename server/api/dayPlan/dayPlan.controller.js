@@ -5,10 +5,12 @@ var Dayplan = require('./dayPlan.model');
 
 // Get list of dayPlans
 exports.index = function(req, res) {
-  Dayplan.find(function (err, dayPlans) {
-    if(err) { return handleError(res, err); }
-    return res.json(200, dayPlans);
-  });
+  Dayplan.find()
+          .sort('dayNum')
+          .exec(function (err, dayPlans){
+            if(err) { return handleError(res, err); }
+            return res.json(200, dayPlans);
+          });
 };
 
 // Get a single dayPlan
@@ -34,15 +36,16 @@ exports.update = function(req, res) {
     delete req.body._id;
   }
   Dayplan.findById(req.params.id, function (err, dayPlan) {
-    console.log("req body id"+req.body._id)
-    console.log("req params id"+req.params.id);
-    console.log("dayPlan:"+dayPlan);
     if (err) { return handleError(res, err); }
     if(!dayPlan) { return res.send(404); }
-    var updated = _.merge(dayPlan, req.body);
 
-    console.log("updated dayPlan"+updated);
-    updated.save(function (err, product, numberAffected) {
+    for(var key in req.body) {
+      dayPlan[key] = req.body[key];
+    }
+    // dayPlan.markModified('hotels')
+
+    console.log("updated dayPlan"+dayPlan);
+    dayPlan.save(function (err, product, numberAffected) {
       if (err) { return handleError(res, err); }
       console.log("product :"+product);
       console.log("numberAffected:"+numberAffected);
@@ -50,6 +53,11 @@ exports.update = function(req, res) {
     });
   });
 };
+
+exports.addActivity = function(){}
+
+// /days/:dayId/activities
+
 
 // Deletes a dayPlan from the DB.
 exports.destroy = function(req, res) {

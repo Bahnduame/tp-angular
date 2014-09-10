@@ -4,12 +4,11 @@
     <div class = "col-sm-12" id="dayBtns">
       <Strong>Select a Day: </Strong>
       <button type="button" class="btn btn-default" ng-click="addDay()">Add a Day</button>
-      <button type="button" class="btn btn-default" ng-repeat="day in dayPlans" ng-click="selectDay(day.dayNum)">Day {{day.dayNum}}</button>
+      <button type="button" class="btn btn-default" ng-class ="{active: day.dayNum === curDay.dayNum}" ng-repeat="day in dayPlans" ng-click="selectDay(day.dayNum)">Day {{day.dayNum}}</button>
     </div>
   </div>
 
   <br>
-<button type="button" class="btn btn-default" ng-click="test()">Bullshit</button>
   <div class = 'row'>
     <div class = "col-sm-6"> <!-- Itnerary Well -->
       <div class = "well">
